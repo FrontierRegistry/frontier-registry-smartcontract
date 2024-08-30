@@ -21,7 +21,9 @@ impl FrontierNft {
         }
         Admin::Admin.set(&env, &admin);
     }
-    pub fn mint(env: Env, admin: Address, title: String, description: String, uri: String)
+    pub fn mint(env: Env, to: Address, title: String, description: String, uri: String) {
+        Admin::Admin.get::<Address>(&env).unwrap().require_auth();
+    }
 }
 
 mod test;
