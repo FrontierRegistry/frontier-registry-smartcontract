@@ -1,4 +1,4 @@
-use soroban_sdk::{contracttype, Address, Env, IntoVal, TryFromVal, Val};
+use soroban_sdk::{contracttype, Address, Env, IntoVal, TryFromVal, String, Val};
 
 #[contracttype]
 pub enum Admin {
@@ -25,6 +25,14 @@ impl storage::Storage for Admin {
     fn remove(&self, env: &Env) {
         storage::Persistent::remove(env, self)
     }
+}
+
+#[derive(Clone)]
+#[contracttype]
+pub struct TokenData {
+    name: String,
+    description: String,
+    uri: String
 }
 
 #[contracttype]

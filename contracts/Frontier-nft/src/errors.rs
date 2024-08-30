@@ -4,5 +4,6 @@ use soroban_sdk::contracterror;
 #[derive(Copy, Clone, Debug, Eq, PartialEq, PartialOrd, Ord)]
 #[repr(u32)]
 pub enum Error {
-    AlreadyDeployed = 1,
+    AlreadyInit = 1,
+    TokenAlreadyExist = 2
 }
