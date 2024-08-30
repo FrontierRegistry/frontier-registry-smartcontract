@@ -1,5 +1,5 @@
 [package]
-name = "frontier-registry-contract"
+name = "frontier-nft"
 version = "0.0.0"
 edition = "2021"
 publish = false
@@ -10,6 +10,7 @@ doctest = false
 
 [dependencies]
 soroban-sdk = { workspace = true }
+storage = { workspace = true }
 
 [dev-dependencies]
 soroban-sdk = { workspace = true, features = ["testutils"] }

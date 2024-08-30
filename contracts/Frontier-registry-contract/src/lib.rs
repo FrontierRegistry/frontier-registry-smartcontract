@@ -1,14 +1,14 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, symbol_short, vec, Env, Symbol, Vec};
+use soroban_sdk::{contract, contractimpl, Address, symbol_short, vec, Env, Symbol, Vec};
 
 #[contract]
 pub struct FrontierRegistryContract;
 
 #[contractimpl]
 impl FrontierRegistryContract {
-    pub fn hello(env: Env, to: Symbol) -> Vec<Symbol> {
-        vec![&env, symbol_short!("Hello"), to]
-    }
+    // pub fn initialize(env: Env, admin: Address, name: String, symbol: String) {
+
+    // }
 }
 
 mod test;

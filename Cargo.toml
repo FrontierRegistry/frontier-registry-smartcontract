@@ -6,6 +6,7 @@ members = [
 
 [workspace.dependencies]
 soroban-sdk = "21.6.0"
+storage = { path = "./libs/storage" }
 
 [profile.release]
 opt-level = "z"
