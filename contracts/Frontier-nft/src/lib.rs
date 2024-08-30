@@ -15,12 +15,13 @@ pub struct FrontierNft;
 
 #[contractimpl]
 impl FrontierNft {
-    pub fn initialize(env: Env, admin: Address, name: String, symbol: String) {
+    pub fn initialize(env: Env, admin: Address) {
         if Admin::Admin.has(&env) {
             panic_with_error!(env, Error::AlreadyDeployed)
         }
         Admin::Admin.set(&env, &admin);
     }
+    pub fn mint(env: Env, admin: Address, title: String, description: String, uri: String)
 }
 
 mod test;
