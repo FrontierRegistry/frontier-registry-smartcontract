@@ -27,14 +27,6 @@ impl storage::Storage for Admin {
     }
 }
 
-#[derive(Clone)]
-#[contracttype]
-pub struct TokenData {
-    name: String,
-    description: String,
-    uri: String
-}
-
 #[contracttype]
 pub enum DataKey {
     Balance(Address),           // instance
@@ -95,7 +87,7 @@ impl storage::Storage for DataKey {
 #[contracttype]
 pub enum DatakeyMetadata {
     Name,     // instance
-    Symbol,   // instance
+    Description,   // instance
     Uri(u32), // instance
 }
 impl storage::Storage for DatakeyMetadata {

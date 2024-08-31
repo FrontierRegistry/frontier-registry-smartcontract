@@ -6,9 +6,9 @@ pub struct FrontierRegistryContract;
 
 #[contractimpl]
 impl FrontierRegistryContract {
-    // pub fn initialize(env: Env, admin: Address, name: String, symbol: String) {
+    pub fn initialize(env: Env, admin: Address) {
 
-    // }
+    }
 }
 
 mod test;

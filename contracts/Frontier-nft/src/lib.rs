@@ -39,6 +39,10 @@ impl FrontierNft {
         if !DataKey::TokenOwner(token_id).has(env) {
             DataKey::TokenOwner(token_id).set(env, &to);
 
+            DatakeyMetadata::Name.set(env, &name);
+            DatakeyMetadata::Description.set(env, &description);
+            DatakeyMetadata::Uri(token_id).set(env, &ipfs_hash);
+
             let mut owned_token_indices: Vec<u32> =
                 DataKeyEnumerable::OwnedTokenIndices.get(env).unwrap();
 
