@@ -5,4 +5,4 @@ target
 .soroban
 
 # Test's directory
-test_snapshots
+test_snapshots/
