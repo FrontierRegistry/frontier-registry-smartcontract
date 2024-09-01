@@ -9,9 +9,5 @@ fn test() {
     let contract_id = env.register_contract(None, FrontierRegistryContract);
     let client = FrontierRegistryContractClient::new(&env, &contract_id);
 
-    let words = client.hello(&symbol_short!("Dev"));
-    assert_eq!(
-        words,
-        vec![&env, symbol_short!("Hello"), symbol_short!("Dev"),]
-    );
+
 }

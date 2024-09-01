@@ -2,14 +2,16 @@
 
 mod errors;
 mod types;
+mod events;
 
 use storage::Storage;
 
 pub use errors::*;
 pub use types::*;
+pub use events::*;
 
 use soroban_sdk::{
-    contract, contractimpl, panic_with_error, Address, String, symbol_short, Map, vec, Env, Symbol, Vec
+    contract, contractimpl, panic_with_error, Address, String, symbol_short, IntoVal, Map, vec, Env, Val, Symbol, Vec
 };
 
 #[contract]
@@ -76,6 +78,10 @@ impl FrontierNft {
             panic_with_error!(env, Error::TokenAlreadyExist)
         }
 
+        let mut v: Vec<Val> = Vec::new(env);
+        v.push_back(to.into_val(env));
+        v.push_back(token_id.into());
+        Event::Mint.publish(env, v);
     }
 }
 
