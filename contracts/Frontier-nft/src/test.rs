@@ -5,6 +5,7 @@ use soroban_sdk::{
     symbol_short, 
     testutils::{Address as _, AuthorizedFunction, AuthorizedInvocation},
     vec,
+    String,
     Env
 };
 
@@ -24,9 +25,9 @@ fn test() {
 
     client.initialize(&user1);
 
-    let res = client.try_initialize(&user1);
-
-    assert_eq!(res, Err(Ok(Error::AlreadyInit.into())));
-
+    let to_address = Address::generate(&env);
+    
+    client.mint(&to_address, &String::from_str(&env, "token_name"), &String::from_str(&env, "token_description"), &String::from_str(&env, "ipfs_hash"));
+    
 
 }

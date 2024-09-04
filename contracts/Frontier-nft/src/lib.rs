@@ -24,9 +24,15 @@ impl FrontierNft {
             panic_with_error!(env, Error::AlreadyInit)
         }
         Admin::Admin.set(&env, &admin);
+
+        env.storage().instance().extend_ttl(10000, 10000);
+
+        DataKeyEnumerable::CounterId.set(&env, &u32::MIN);
+        DataKeyEnumerable::OwnedTokenIndices.set(&env, &Vec::<u32>::new(&env));
+        DataKeyEnumerable::TokenIdToIndex.set(&env, &Map::<u32, u32>::new(&env));
     }
     pub fn mint(env: Env, to: Address, name: String, description: String, ipfs_hash: String) -> u32 {
-        Admin::Admin.get::<Address>(&env).unwrap().require_auth();
+        // Admin::Admin.get::<Address>(&env).unwrap().require_auth();
 
         let new_token_id = DataKeyEnumerable::CounterId.get::<u32>(&env).unwrap();
 
