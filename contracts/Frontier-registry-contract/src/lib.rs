@@ -18,6 +18,9 @@ impl FrontierRegistryContract {
     pub fn initialize(env: &Env, frontier_nft_address: Address) {
 
     }
+    pub fn register_research(env: &Env, title: String, description: String, uri: String) -> {
+        let frontfrontier_nft::FrontierNftClient::
+    }
 }
 
 mod test;

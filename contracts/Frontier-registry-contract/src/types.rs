@@ -26,3 +26,8 @@ impl storage::Storage for Admin {
         storage::Persistent::remove(env, self)
     }
 }
+
+#[contracttype]
+pub enum DataKey {
+    
+}
