@@ -10,7 +10,7 @@ use storage::Storage;
 pub use errors::*;
 pub use types::*;
 pub use events::*;
-pub use interfaces::{FrontierNftMetadata};
+pub use interfaces::{FrontierNftMetadata, FrontierNftTrait};
 
 use soroban_sdk::{
     contract, contractimpl, panic_with_error, Address, String, symbol_short, IntoVal, Map, vec, Env, Val, Symbol, Vec
@@ -108,6 +108,142 @@ impl FrontierNftMetadata for FrontierNft {
 
         DatakeyMetadata::Uri(token_id).get(&env).unwrap_or_else(|| String::from_str(&env, "No given token uri"))
     }
+}
+
+#[contractimpl]
+impl FrontierNftTrait for FrontierNft {
+    fn balance_of(env: Env, owner: Address) -> u32 {
+        DataKey::Balance(owner)
+            .extend(&env, 1000)
+            .get(&env)
+            .unwrap_or(0)
+    }
+
+    fn transfer_from(env: Env, spender: Address, from: Address, to: Address, token_id: u32) {
+        spender.require_auth();
+        let is_sender_approved = if spender != from {
+            let has_approved =
+                if let Some(approved) = DataKey::Approved(token_id).get::<Address>(&env) {
+                    // Clear the approval on transfer
+                    DataKey::Approved(token_id).remove(&env);
+                    approved == spender
+                } else {
+                    false
+                };
+            if !has_approved {
+                DataKey::Operator(from.clone(), spender).has(&env)
+            } else {
+                true
+            }
+        } else {
+            true
+        };
+        if !is_sender_approved {
+            panic_with_error!(&env, Error::NotAuthorized);
+        }
+
+        if let Some(addr) = DataKey::TokenOwner(token_id).get::<Address>(&env) {
+            if addr == from {
+                if from != to {
+                    // vector containing ids of tokens owned by a specific address:
+                    let from_owned_token_ids_key =
+                        DataKeyEnumerable::OwnerOwnedTokenIds(from.clone());
+                    let to_owned_token_ids_key = DataKeyEnumerable::OwnerOwnedTokenIds(to.clone());
+                    let mut from_owned_token_ids: Vec<u32> = from_owned_token_ids_key
+                        .get(&env)
+                        .unwrap_or_else(|| Vec::new(&env));
+
+                    // A map linking token IDs to their indices for a specific address.
+                    let from_owner_token_id_to_index_key =
+                        DataKeyEnumerable::OwnerTokenIdToIndex(from.clone());
+                    let to_owner_token_id_to_index_key =
+                        DataKeyEnumerable::OwnerTokenIdToIndex(to.clone());
+                    let mut from_owner_token_id_to_index: Map<u32, u32> =
+                        from_owner_token_id_to_index_key
+                            .get(&env)
+                            .unwrap_or_else(|| Map::new(&env));
+
+                    let mut to_index: Vec<u32> = to_owned_token_ids_key
+                        .get(&env)
+                        .unwrap_or_else(|| Vec::new(&env));
+                    let mut to_token: Map<u32, u32> = to_owner_token_id_to_index_key
+                        .get(&env)
+                        .unwrap_or_else(|| Map::new(&env));
+
+                    // Remove token from index of from address
+                    if let Some(index) = from_owner_token_id_to_index.get(token_id) {
+                        // index is the index for an especific address in
+                        if let Some(pos) = from_owned_token_ids.iter().position(|x| x == index) {
+                            let pos_u32: u32 = pos.try_into().unwrap();
+                            from_owned_token_ids.remove(pos_u32);
+                        }
+                        from_owner_token_id_to_index.remove(token_id);
+                    }
+
+                    // Remove token from index of to address
+                    to_token.set(token_id, to_index.len());
+                    to_index.push_back(token_id);
+
+                    // Update from address vec and map
+                    from_owned_token_ids_key.set(&env, &from_owned_token_ids);
+                    from_owner_token_id_to_index_key.set(&env, &from_owner_token_id_to_index);
+                    DataKey::Balance(from.clone()).set(&env, &from_owned_token_ids.len());
+
+                    // Update to address vec and map
+                    to_owner_token_id_to_index_key.set(&env, &to_token);
+                    to_owned_token_ids_key.set(&env, &to_index);
+                    DataKey::Balance(to.clone()).set(&env, &to_index.len());
+
+                    // Emit the transfer event
+                    let mut v: Vec<Val> = Vec::new(&env);
+                    v.push_back(from.clone().into_val(&env));
+                    v.push_back(to.into_val(&env));
+                    v.push_back(token_id.into());
+                    Event::Transfer.publish(&env, v);
+                }
+                DataKey::TokenOwner(token_id).set(&env, &to);
+            } else {
+                panic_with_error!(&env, Error::NotOwner);
+            }
+        } else {
+            panic_with_error!(&env, Error::NotNFT);
+        }
+    }
+
+    fn approve(env: Env, caller: Address, operator: Option<Address>, token_id: u32, ttl: u32) {
+        if let Some(owner) = DataKey::TokenOwner(token_id).get::<Address>(&env) {
+            if owner == caller {
+                owner.require_auth();
+            } else if DataKey::Operator(owner, caller.clone())
+                .get::<bool>(&env)
+                .unwrap_or(false)
+            {
+                caller.require_auth();
+            }
+        } else {
+            panic_with_error!(&env, Error::NotNFT);
+        }
+
+        if let Some(to_approve) = operator {
+            DataKey::Approved(token_id).set(&env, &to_approve);
+            DataKey::Approved(token_id).extend(&env, ttl);
+
+            // Emit the Approved event
+            let mut v: Vec<Val> = Vec::new(&env);
+            v.push_back(
+                DataKey::TokenOwner(token_id)
+                    .get::<Address>(&env)
+                    .unwrap()
+                    .into_val(&env),
+            );
+            v.push_back(to_approve.into_val(&env));
+            v.push_back(token_id.into());
+            Event::Approve.publish(&env, v);
+        } else {
+            DataKey::Approved(token_id).remove(&env);
+        }
+    }
+
 }
 
 mod test;
