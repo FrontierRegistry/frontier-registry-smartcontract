@@ -5,5 +5,6 @@ use soroban_sdk::contracterror;
 #[repr(u32)]
 pub enum Error {
     AlreadyInit = 1,
-    TokenAlreadyExist = 2
+    TokenAlreadyExist = 2,
+    TokenNoExist = 3
 }

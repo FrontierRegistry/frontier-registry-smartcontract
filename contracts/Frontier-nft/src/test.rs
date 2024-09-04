@@ -27,7 +27,9 @@ fn test() {
 
     let to_address = Address::generate(&env);
     
-    client.mint(&to_address, &String::from_str(&env, "token_name"), &String::from_str(&env, "token_description"), &String::from_str(&env, "ipfs_hash"));
+    let token_id = client.mint(&to_address, &String::from_str(&env, "token_name"), &String::from_str(&env, "token_description"), &String::from_str(&env, "ipfs_hash"));
     
-
+    assert_eq!(client.name(), String::from_str(&env, "token_name"), "wrong token name");
+    assert_eq!(client.description(), String::from_str(&env, "token_description"), "wrong token description");
+    assert_eq!(client.uri(&token_id), String::from_str(&env, "ipfs_hash"), "wrong uri");
 }

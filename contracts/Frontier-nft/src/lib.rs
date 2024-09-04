@@ -3,12 +3,14 @@
 mod errors;
 mod types;
 mod events;
+mod interfaces;
 
 use storage::Storage;
 
 pub use errors::*;
 pub use types::*;
 pub use events::*;
+pub use interfaces::{FrontierNftMetadata};
 
 use soroban_sdk::{
     contract, contractimpl, panic_with_error, Address, String, symbol_short, IntoVal, Map, vec, Env, Val, Symbol, Vec
@@ -88,6 +90,23 @@ impl FrontierNft {
         v.push_back(to.into_val(env));
         v.push_back(token_id.into());
         Event::Mint.publish(env, v);
+    }
+}
+
+#[contractimpl]
+impl FrontierNftMetadata for FrontierNft {
+    fn name(env: Env) -> String {
+        DatakeyMetadata::Name.get(&env).unwrap()
+    }
+    fn description(env: Env) -> String {
+        DatakeyMetadata::Description.get(&env).unwrap()
+    }
+    fn uri(env: Env, token_id: u32) -> String {
+        if !DataKey::TokenOwner(token_id).has(&env) {
+            panic_with_error!(env, Error::TokenNoExist);
+        }
+
+        DatakeyMetadata::Uri(token_id).get(&env).unwrap_or_else(|| String::from_str(&env, "No given token uri"))
     }
 }
 
