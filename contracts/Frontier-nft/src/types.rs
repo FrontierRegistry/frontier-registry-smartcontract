@@ -89,6 +89,7 @@ pub enum DatakeyMetadata {
     Name,     // instance
     Description,   // instance
     Uri(u32), // instance
+    Keywords,
 }
 impl storage::Storage for DatakeyMetadata {
     fn get<V: TryFromVal<Env, Val>>(&self, env: &Env) -> Option<V> {

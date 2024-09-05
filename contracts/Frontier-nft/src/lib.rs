@@ -33,25 +33,25 @@ impl FrontierNft {
         DataKeyEnumerable::OwnedTokenIndices.set(&env, &Vec::<u32>::new(&env));
         DataKeyEnumerable::TokenIdToIndex.set(&env, &Map::<u32, u32>::new(&env));
     }
-    pub fn mint(env: Env, to: Address, name: String, description: String, uri: String) -> u32 {
-        // Admin::Admin.get::<Address>(&env).unwrap().require_auth();
+    pub fn mint(env: Env, to: Address, name: String, description: String, uri: String, keywords: String) -> u32 {
 
         let new_token_id = DataKeyEnumerable::CounterId.get::<u32>(&env).unwrap();
 
-        Self::internal_mint(&env, to, new_token_id, name, description, uri);
+        Self::internal_mint(&env, to, new_token_id, name, description, uri, keywords);
 
         DataKeyEnumerable::CounterId.set(&env, &(new_token_id + 1u32));
 
         new_token_id
     }
 
-    fn internal_mint(env: &Env, to: Address, token_id: u32, name: String, description: String, uri: String) {
+    fn internal_mint(env: &Env, to: Address, token_id: u32, name: String, description: String, uri: String, keywords: String) {
         if !DataKey::TokenOwner(token_id).has(env) {
             DataKey::TokenOwner(token_id).set(env, &to);
 
             DatakeyMetadata::Name.set(env, &name);
             DatakeyMetadata::Description.set(env, &description);
             DatakeyMetadata::Uri(token_id).set(env, &uri);
+            DatakeyMetadata::Keywords.set(env, &keywords);
 
             let mut owned_token_indices: Vec<u32> =
                 DataKeyEnumerable::OwnedTokenIndices.get(env).unwrap();

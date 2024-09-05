@@ -19,11 +19,15 @@ pub struct FrontierRegistryContract;
 
 #[contractimpl]
 impl FrontierRegistryContract {
-    pub fn initialize(env: &Env, frontier_nft_address: Address) {
+    pub fn initialize(env: &Env, admin: Address, contract: Address) {
+        let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
+        
+        frontier_nft_client.initialize(&admin);
     }
-    pub fn register_research(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String) -> u32 {
+    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String) -> u32 {
         let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
 
+        frontier_nft_client.initialize(&to);
         let token_id = frontier_nft_client.mint(&to, &title, &description, &uri);
 
         token_id
