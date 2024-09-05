@@ -24,11 +24,11 @@ impl FrontierRegistryContract {
         
         frontier_nft_client.initialize(&admin);
     }
-    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String) -> u32 {
+    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> u32 {
         let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
 
         frontier_nft_client.initialize(&to);
-        let token_id = frontier_nft_client.mint(&to, &title, &description, &uri);
+        let token_id = frontier_nft_client.mint(&to, &title, &description, &uri, &keywords);
 
         token_id
     }
