@@ -82,6 +82,26 @@ and DataKeyEnumerable data structures
 whether it is already initialized Register on the chain if it is the
 first time
 
+
+**August 31 - Sept 5th**
+
+### <ins>Report 2</ins> 
+
+- Updated content
+1. Update Frontiernft contract in Frontier registry
+Complete the part that gets NFT metadata
+
+Complete the part that gets name, description, uri
+
+Implement Digital Asset (NFT) balance_of, transfer_from, approve functions
+Get NFT balance, transfer NFT, and implement NFT approve functions
+
+3. Complete the basic part of frontier registry contract in Frontier registry
+Write the connection part with Frontiernft
+
+Complete the basic skeleton structure
+Complete the data structure, error, initialization function, and function structure that creates NFT and registers it on the chain
+
 - Wrote a mint function Exception handling to determine whether a
 token id exists Register token data on the chain
 
