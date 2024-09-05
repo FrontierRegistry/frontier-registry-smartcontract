@@ -108,6 +108,9 @@ impl FrontierNftMetadata for FrontierNft {
 
         DatakeyMetadata::Uri(token_id).get(&env).unwrap_or_else(|| String::from_str(&env, "No given token uri"))
     }
+    fn keywords(env: Env) -> {
+        DatakeyMetadata::Keywords.get(&env).unwrap()
+    }
 }
 
 #[contractimpl]
