@@ -39,6 +39,24 @@ impl FrontierRegistryContract {
         frontier_nft_client.initialize(&to);
         let token_id = frontier_nft_client.mint(&to, &title, &description, &uri, &keywords);
 
+        // set certificate data to chain with user address
+        let mut owner_certificate_data: Vec<Certificate> = 
+            DataKey::CertificateData(to.clone())
+                .get(env)
+                .unwrap_or_else(|| Vec::new(env));
+        owner_certificate_data.push_back(
+            Certificate {
+                frontier_address: contract,
+                user_address: to,
+                nft_id: token_id,
+                title: title,
+                description: description,
+                uri: uri,
+                keywords: keywords
+            });
+
+        DataKey::CertificateData(to.clone()).set(env, &owner_certificate_data);
+
         // publish cetificate
         Certificate {
             frontier_address: contract,
