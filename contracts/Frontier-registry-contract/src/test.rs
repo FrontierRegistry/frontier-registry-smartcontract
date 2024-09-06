@@ -13,11 +13,4 @@ fn test() {
     let contract_id = env.register_contract(None, FrontierRegistryContract);
     let client = FrontierRegistryContractClient::new(&env, &contract_id);
 
-    // 
-    let admin = Address::generate(&env);
-    let to = Address::generate(&env);
-
-    let token_id = client.register(&admin, &to, &String::from_str(&env, "title"), &String::from_str(&env, "description"), &String::from_str(&env, "AJDJAKJDKAJSKDJKS"));
-
-
 }

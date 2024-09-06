@@ -31,7 +31,7 @@ impl storage::Storage for DataKey {
     }
 
     fn extend(&self, env: &Env, min_ledger_to_live: u32) -> &Self {
-        storage::Persistent::extend(env, min_ledger_to_live);
+        storage::Persistent::extend(env, self, min_ledger_to_live);
         self
     }
 

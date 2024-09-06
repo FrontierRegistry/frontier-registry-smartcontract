@@ -1,6 +1,4 @@
 #![no_std]
-use soroban_sdk::{contract, contractimpl, panic_with_error, Address, String, symbol_short, vec, Env, Symbol, Vec};
-use soroban_sdk::token::Client;
 
 mod types;
 mod errors;
@@ -11,8 +9,15 @@ pub mod frontier_nft {
     );
 }
 
+use storage::Storage;
+
 use types::*;
 use errors::*;
+
+use soroban_sdk::{
+    contract, contractimpl, panic_with_error, Address, String, symbol_short, IntoVal, Map, vec, Env, Val, Symbol, Vec
+};
+use soroban_sdk::token::Client;
 
 #[contract]
 pub struct FrontierRegistryContract;
@@ -27,17 +32,17 @@ impl FrontierRegistryContract {
     // set research data to chain, publish certificate data to user
     pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> Certificate {
         // check title and description
-        if ResearchData::Title(to).has(env) {
-            panic_with_error(env, Error::AlreadyTitleExist);
+        if ResearchData::Title(to.clone()).has(env) {
+            panic_with_error!(env, Error::AlreadyTitleExist);
         }
-        if ResearchData::Description(to).has(env) {
-            panic_with_error(env, Error::AlreadyDescriptionExist);
+        if ResearchData::Description(to.clone()).has(env) {
+            panic_with_error!(env, Error::AlreadyDescriptionExist);
         }
 
         // mint nft based user's input data
         let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
 
-        frontier_nft_client.initialize(&to);
+        frontier_nft_client.initialize(&to.clone());
         let token_id = frontier_nft_client.mint(&to, &title, &description, &uri, &keywords);
 
         // set certificate data to chain with user address
@@ -45,32 +50,25 @@ impl FrontierRegistryContract {
             DataKey::CertificateData(to.clone())
                 .get(env)
                 .unwrap_or_else(|| Vec::new(env));
-        owner_certificate_data.push_back(
-            Certificate {
-                frontier_address: contract,
-                user_address: to,
-                nft_id: token_id,
-                title: title,
-                description: description,
-                uri: uri,
-                keywords: keywords
-            });
+        let certificate_data = Certificate{
+            frontier_address: contract.clone(),
+            user_address: to.clone(),
+            nft_id: token_id.clone(),
+            title: title.clone(),
+            description: description.clone(),
+            uri: uri.clone(),
+            keywords: keywords.clone()
+        };
 
-        DataKey::CertificateData(to.clone()).set(env, &owner_certificate_data);
+        owner_certificate_data.push_back(certificate_data.clone());
+
+        DataKey::CertificateData(to).set(env, &owner_certificate_data);
 
         // publish cetificate
-        Certificate {
-            frontier_address: contract,
-            user_address: to,
-            nft_id: token_id,
-            title: title,
-            description: description,
-            uri: uri,
-            keywords: keywords
-        }
+        certificate_data
     }
     // get research data of user address
-    pub fn get_research_by_user(env: &Env, user_address: Address) -> vec<Certificate> {
+    pub fn get_research_by_user(env: &Env, user_address: Address) -> Vec<Certificate> {
         DataKey::CertificateData(user_address.clone()).get(env).unwrap_or_else(|| Vec::new(env))
     }
 }
