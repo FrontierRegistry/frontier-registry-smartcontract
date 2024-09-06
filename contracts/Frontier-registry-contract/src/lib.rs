@@ -25,6 +25,15 @@ impl FrontierRegistryContract {
         frontier_nft_client.initialize(&admin);
     }
     pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> u32 {
+        // check title and description
+        if ResearchData::Title(to).has(env) {
+            panic_with_error(env, Error::AlreadyTitleExist);
+        }
+        if ResearchData::Description(to).has(env) {
+            panic_with_error(env, Error::AlreadyDescriptionExist);
+        }
+
+        // mint nft based user's input data
         let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
 
         frontier_nft_client.initialize(&to);
