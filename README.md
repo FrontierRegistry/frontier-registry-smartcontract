@@ -83,7 +83,7 @@ whether it is already initialized Register on the chain if it is the
 first time
 
 
-**August 31 - Sept 5th**
+**August 31 - Sept 6th**
 
 ### <ins>Report 2</ins> 
 
@@ -102,8 +102,23 @@ Write the connection part with Frontiernft
 Complete the basic skeleton structure
 Complete the data structure, error, initialization function, and function structure that creates NFT and registers it on the chain
 
+
+ ✔ Completed the part where keywords are added to register a research
+paper in Frontier nft
+
+ ✔ Adding keywords to metadata in Frontier nft
+ 
+ ✔ Completed the part where research data is registered in the
+ Frontier registry and the data required to create authentication
+certification is sent to the user
+
+ ✔ Completed the part where all research paper registered by the user
+is obtained in the Frontier registry
+
+ ✔ Completed the test code for the part where research data is registered
+
 - Wrote a mint function Exception handling to determine whether a
-token id exists Register token data on the chain
+token id exists; Register token data on the chain
 
 
 
