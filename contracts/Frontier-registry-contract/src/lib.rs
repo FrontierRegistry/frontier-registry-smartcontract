@@ -24,6 +24,7 @@ impl FrontierRegistryContract {
         
         frontier_nft_client.initialize(&admin);
     }
+    // set research data to chain, publish certificate data to user
     pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> Certificate {
         // check title and description
         if ResearchData::Title(to).has(env) {
@@ -68,8 +69,9 @@ impl FrontierRegistryContract {
             keywords: keywords
         }
     }
-    pub fn get_research_by_user(env: &Env, user_address: Address) {
-
+    // get research data of user address
+    pub fn get_research_by_user(env: &Env, user_address: Address) -> vec<Certificate> {
+        DataKey::CertificateData(user_address.clone()).get(env).unwrap_or_else(|| Vec::new(env))
     }
 }
 
