@@ -24,7 +24,7 @@ impl FrontierRegistryContract {
         
         frontier_nft_client.initialize(&admin);
     }
-    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> u32 {
+    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> Certificate {
         // check title and description
         if ResearchData::Title(to).has(env) {
             panic_with_error(env, Error::AlreadyTitleExist);
@@ -39,12 +39,18 @@ impl FrontierRegistryContract {
         frontier_nft_client.initialize(&to);
         let token_id = frontier_nft_client.mint(&to, &title, &description, &uri, &keywords);
 
-        token_id
+        // publish cetificate
+        Certificate {
+            frontier_address: contract,
+            user_address: to,
+            nft_id: token_id,
+            title: title,
+            description: description,
+            uri: uri,
+            keywords: keywords
+        }
     }
-    pub fn get_nfts_by_user(env: &Env, user_address: Address) {
-
-    }
-    pub fn get_nft_info(env: &Env, nft_id: u32) {
+    pub fn get_research_by_user(env: &Env, user_address: Address) {
 
     }
 }

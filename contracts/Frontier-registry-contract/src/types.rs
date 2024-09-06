@@ -7,6 +7,18 @@ pub enum DataKey {
 
 #[derive(Clone)]
 #[contracttype]
+pub struct Certificate {
+    pub frontier_address: Address,
+    pub user_address: Address,
+    pub nft_id: u32,
+    pub title: String,
+    pub description: String,
+    pub uri: String,
+    pub keywords: String
+}
+
+#[derive(Clone)]
+#[contracttype]
 pub enum ResearchData {
     Title(Address), // instance
     Description(Address) // instance
