@@ -43,8 +43,8 @@ impl storage::Storage for DataKey {
 #[derive(Clone)]
 #[contracttype]
 pub enum ResearchData {
-    Title(Address), // instance
-    Description(Address) // instance
+    Title(Address, String), // instance
+    Description(Address, String) // instance
 }
 
 impl storage::Storage for ResearchData {
