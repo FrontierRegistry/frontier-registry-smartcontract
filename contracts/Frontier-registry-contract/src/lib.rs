@@ -30,7 +30,7 @@ impl FrontierRegistryContract {
         frontier_nft_client.initialize(&admin);
     }
     // set research data to chain, publish certificate data to user
-    pub fn register(env: &Env, contract: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> Certificate {
+    pub fn register(env: &Env, frontier_nft_contract_id: Address, to: Address, title: String, description: String, uri: String, keywords: String) -> Certificate {
         // check title and description
         if ResearchData::Title(to.clone()).has(env) {
             panic_with_error!(env, Error::AlreadyTitleExist);
@@ -40,9 +40,8 @@ impl FrontierRegistryContract {
         }
 
         // mint nft based user's input data
-        let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
+        let frontier_nft_client = frontier_nft::Client::new(&env, &frontier_nft_contract_id);
 
-        frontier_nft_client.initialize(&to.clone());
         let token_id = frontier_nft_client.mint(&to, &title, &description, &uri, &keywords);
 
         // set certificate data to chain with user address
@@ -51,7 +50,7 @@ impl FrontierRegistryContract {
                 .get(env)
                 .unwrap_or_else(|| Vec::new(env));
         let certificate_data = Certificate{
-            frontier_address: contract.clone(),
+            frontier_address: Address::from_string(&String::from_str(&env, "GBOIAU5C66IIH6REQWFMRVEZTBAXXMAMCQBNRIU7V7JHFIRT7XD6DLLN")).clone(),
             user_address: to.clone(),
             nft_id: token_id.clone(),
             title: title.clone(),
