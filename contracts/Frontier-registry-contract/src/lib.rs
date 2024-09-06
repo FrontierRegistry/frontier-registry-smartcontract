@@ -24,8 +24,8 @@ pub struct FrontierRegistryContract;
 
 #[contractimpl]
 impl FrontierRegistryContract {
-    pub fn initialize(env: &Env, admin: Address, contract: Address) {
-        let frontier_nft_client = frontier_nft::Client::new(&env, &contract);
+    pub fn initialize(env: &Env, admin: Address, frontier_nft_contract_id: Address) {
+        let frontier_nft_client = frontier_nft::Client::new(&env, &frontier_nft_contract_id);
         
         frontier_nft_client.initialize(&admin);
     }
@@ -63,7 +63,7 @@ impl FrontierRegistryContract {
 
         DataKey::CertificateData(to).set(env, &owner_certificate_data);
 
-        // publish cetificate
+        // return certificate
         certificate_data
     }
     // get research data of user address

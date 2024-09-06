@@ -1,6 +1,6 @@
 use soroban_sdk::{contracttype, Address, Env, IntoVal, TryFromVal, String, Val};
 
-#[derive(Clone)]
+#[derive(Clone, Debug, PartialEq, Eq)]
 #[contracttype]
 pub struct Certificate {
     pub frontier_address: Address,
