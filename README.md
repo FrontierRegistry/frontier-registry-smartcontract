@@ -124,7 +124,9 @@ token id exists; Register token data on the chain
 
 
 
-### <ins>Report 4</ins> September 9th
+### <ins>Report 4</ins> 
+
+September 9th
 
 1.Made frontier-registry-frontend repository (set to Private Repo for now. We will set to Public by end of build)
 
