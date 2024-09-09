@@ -103,6 +103,8 @@ Complete the basic skeleton structure
 Complete the data structure, error, initialization function, and function structure that creates NFT and registers it on the chain
 
 
+### <ins>Report 3</ins> 
+
  ✔ Completed the part where keywords are added to register a research
 paper in Frontier nft
 
@@ -119,6 +121,16 @@ is obtained in the Frontier registry
 
 - Wrote a mint function Exception handling to determine whether a
 token id exists; Register token data on the chain
+
+
+
+### <ins>Report 4</ins> September 9th
+
+1.Made frontier-registry-frontend repository (set to Private Repo for now. We will set to Public by end of build)
+
+2.Built a project structure for the Frontier registry frontend 
+
+3.Add Home, header, and footer sections  
 
 
 
