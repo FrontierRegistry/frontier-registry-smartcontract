@@ -136,3 +136,20 @@ September 9th
 
 
 
+### <ins>Report 5</ins> 
+
+September 11th 
+
+1. project progress:
+
+✔ Added tailwind css and material-tailwind-ui.
+
+✔ Set up the route of the project.
+
+✔ Completed the header and footer of the project.
+
+✔ Completed the home part in its basic form.
+
+✔ Integrate the wallet extension into the project and completed the
+connection part.
+
