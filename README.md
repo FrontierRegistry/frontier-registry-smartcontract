@@ -103,7 +103,10 @@ Complete the basic skeleton structure
 Complete the data structure, error, initialization function, and function structure that creates NFT and registers it on the chain
 
 
+
 ### <ins>Report 3</ins> 
+
+Sept 7 - 8th
 
  ✔ Completed the part where keywords are added to register a research
 paper in Frontier nft
@@ -124,6 +127,7 @@ token id exists; Register token data on the chain
 
 
 
+
 ### <ins>Report 4</ins> 
 
 September 9th
@@ -133,6 +137,7 @@ September 9th
 2.Built a project structure for the Frontier registry frontend 
 
 3.Add Home, header, and footer sections  
+
 
 
 
@@ -152,4 +157,24 @@ September 11th
 
 ✔ Integrate the wallet extension into the project and completed the
 connection part.
+
+
+
+### <ins>Report 6</ins> 
+
+September 13th 
+
+Progress Report 
+
+✔ Re-edited and completed the part that connects the wallet and displays the address.
+
+✔ Built a redux structure for the project.
+
+✔ Completed the design part in the part that registers new research data.
+
+✔ Modified and completed the header and footer.
+
+✔ Completed the part that uploads files to IPFS
+
+
 
