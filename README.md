@@ -7,16 +7,23 @@ Discord @artemisp_3d   Tg @paige3d
 
 [IoT Logistics, LLC](https://iotlogistics.international) 
 
-Existing dApp   https://frontier-dapp.netlify.app
+### Please see ✅ <ins>Report 7</ins> ✅ at Bottom of file here for Deliverable 1 Frontier Registry dApp & URL to Soroban Integrated MVP Frontier Registry
+
+https://frontier-registry-demo.netlify.app/
 
 Info Page  https://frontier-registry.carrd.co  
 
 [Explainer Video](https://www.youtube.com/watch?v=lAxw35kjUzI)
 
 
+
 **Lead Dev for Soroban Build Toru Ichikawa**  
 Contact:  [Portfolio](https://spectrecoder.vercel.app)   Discord @spectrecoder
 Github @spectrecoder 
+
+
+Archived dApp    https://frontier-dapp.netlify.app
+
 
 
 ### **SEE BELOW FOR WEEKLY DEVELOPER'S LOG**
@@ -29,8 +36,8 @@ The App is now listed on  [Magic Store](https://magic.store/app/frontier-registr
 
 
 **The main goals are to**
-1. Adapt Frontier Registry to Stellar Mainnet using Soroban Smart Contracts
-2. Integrate Freighter wallet - using plug-ins noted in the technical architecture
+1. Adapt Frontier Registry to Stellar Testnet using Soroban Smart Contracts
+2. Integrate Freighter & XBull wallets - using plug-ins noted in the technical architecture
 3. Automate a certification system so that the users can upload their research, publish it on chain
 and receive a Certification document (NOTED In the Pitch Deck slide)
 4. We need to have a function that shows the user what is processing, when.
@@ -175,6 +182,22 @@ Progress Report
 ✔ Modified and completed the header and footer.
 
 ✔ Completed the part that uploads files to IPFS
+
+
+
+# Deliverable 1:  For Kickstarter Award 
+
+
+### <ins>Report 7</ins> 
+
+September 18th
+
+## ✅🎉
+#### On Testnet - Basic MVP 1 w/ Soroban Smart Contract integration
+
+Please ck it out! 
+https://frontier-registry-demo.netlify.app/
+
 
 
 
